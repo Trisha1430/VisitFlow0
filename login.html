@@ -160,9 +160,32 @@
       document.getElementById("message").innerText = "";
     }
 
-    function login() {
-      document.getElementById("message").innerText =
-        "Login system connecting... 🔐";
+    async function login() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  const message = document.getElementById("message");
+
+  if (!email || !password) {
+    message.innerText = "Please enter email and password.";
+    return;
+  }
+
+  message.innerText = "Logging in... 🔐";
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.innerText = error.message;
+    return;
+  }
+
+  message.innerText = "Login successful! 🎉";
+  window.location.href = "dashboard.html";
+    }
     }
 
     function register() {
