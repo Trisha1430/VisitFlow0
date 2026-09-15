@@ -1,242 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VisitFlow - Login</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .box {
-      width: 100%;
-      max-width: 420px;
-      background: white;
-      padding: 30px 25px;
-      border-radius: 20px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-    }
-
-    .logo {
-      text-align: center;
-      font-size: 30px;
-      font-weight: bold;
-      color: #667eea;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #777;
-      margin-bottom: 25px;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #667eea;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: #667eea;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .switch {
-      text-align: center;
-      margin-top: 20px;
-      color: #666;
-    }
-
-    .switch span {
-      color: #667eea;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #message {
-      text-align: center;
-      margin-top: 15px;
-      font-size: 14px;
-    }
-
-    .hidden {
-      display: none;
-    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}body{min-height:100vh;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;justify-content:center;align-items:center;padding:20px}.box{width:100%;max-width:420px;background:#fff;padding:30px 25px;border-radius:20px;box-shadow:0 15px 40px rgba(0,0,0,.2)}.logo{text-align:center;font-size:30px;font-weight:bold;color:#667eea;margin-bottom:8px}.subtitle{text-align:center;color:#777;margin-bottom:25px}h2{text-align:center;margin-bottom:20px;color:#333}input{width:100%;padding:14px;margin-bottom:15px;border:1px solid #ddd;border-radius:10px;font-size:15px;outline:none}input:focus{border-color:#667eea}button{width:100%;padding:14px;border:0;border-radius:10px;background:#667eea;color:#fff;font-size:16px;font-weight:bold;cursor:pointer}.switch{text-align:center;margin-top:20px;color:#666}.switch span{color:#667eea;font-weight:bold;cursor:pointer}#message{text-align:center;margin-top:15px;font-size:14px;min-height:20px}.hidden{display:none}
   </style>
 </head>
-
 <body>
-
   <div class="box">
-
-    <div class="logo">🌐 VisitFlow</div>
-    <div class="subtitle">Grow • Discover • Earn</div>
-
-    <!-- LOGIN -->
-    <div id="loginBox">
-      <h2>Welcome Back 👋</h2>
-
-      <input type="email" id="loginEmail" placeholder="Email address">
-      <input type="password" id="loginPassword" placeholder="Password">
-
-      <button onclick="login()">Login</button>
-
-      <div class="switch">
-        Don't have an account?
-        <span onclick="showRegister()">Register</span>
-      </div>
+    <div class="logo">🌐 VisitFlow</div><div class="subtitle">Grow • Discover • Earn</div>
+    <div id="loginBox"><h2>Welcome Back 👋</h2>
+      <input type="email" id="loginEmail" placeholder="Email address" autocomplete="email">
+      <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+      <button id="loginBtn" onclick="login()">Login</button>
+      <div class="switch">Don't have an account? <span onclick="showRegister()">Register</span></div>
     </div>
-
-    <!-- REGISTER -->
-    <div id="registerBox" class="hidden">
-      <h2>Create Account 🚀</h2>
-
-      <input type="text" id="username" placeholder="Username">
-      <input type="email" id="registerEmail" placeholder="Email address">
-      <input type="password" id="registerPassword" placeholder="Password">
-
-      <button onclick="register()">Create Account</button>
-
-      <div class="switch">
-        Already have an account?
-        <span onclick="showLogin()">Login</span>
-      </div>
+    <div id="registerBox" class="hidden"><h2>Create Account 🚀</h2>
+      <input type="text" id="username" placeholder="Username" autocomplete="username">
+      <input type="email" id="registerEmail" placeholder="Email address" autocomplete="email">
+      <input type="password" id="registerPassword" placeholder="Password (6+ characters)" autocomplete="new-password">
+      <button id="registerBtn" onclick="register()">Create Account</button>
+      <div class="switch">Already have an account? <span onclick="showLogin()">Login</span></div>
     </div>
-
-    <div id="message"></div>
-
+    <div id="message" role="status"></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    function showRegister() {
-      document.getElementById("loginBox").classList.add("hidden");
-      document.getElementById("registerBox").classList.remove("hidden");
-      document.getElementById("message").innerText = "";
+    const SUPABASE_URL = 'https://xofmeyvdnnyebfmabdfu.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_x_K3wkjTC77h16GUNO-qfQ_ii7veaEa';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const message = document.getElementById('message');
+    function showRegister(){document.getElementById('loginBox').classList.add('hidden');document.getElementById('registerBox').classList.remove('hidden');message.textContent='';}
+    function showLogin(){document.getElementById('registerBox').classList.add('hidden');document.getElementById('loginBox').classList.remove('hidden');message.textContent='';}
+    function setBusy(id,busy,label){const b=document.getElementById(id);b.disabled=busy;b.textContent=busy?'Please wait…':label;}
+
+    async function login(){
+      const email=document.getElementById('loginEmail').value.trim();
+      const password=document.getElementById('loginPassword').value;
+      if(!email||!password){message.textContent='Please enter email and password.';return;}
+      setBusy('loginBtn',true,'Login'); message.textContent='Logging in… 🔐';
+      const {error}=await supabaseClient.auth.signInWithPassword({email,password});
+      if(error){message.textContent=error.message;setBusy('loginBtn',false,'Login');return;}
+      window.location.replace('dashboard.html');
     }
 
-    function showLogin() {
-      document.getElementById("registerBox").classList.add("hidden");
-      document.getElementById("loginBox").classList.remove("hidden");
-      document.getElementById("message").innerText = "";
+    async function register(){
+      const username=document.getElementById('username').value.trim();
+      const email=document.getElementById('registerEmail').value.trim();
+      const password=document.getElementById('registerPassword').value;
+      if(!username||!email||!password){message.textContent='Please fill in all fields.';return;}
+      if(password.length<6){message.textContent='Password must be at least 6 characters.';return;}
+      setBusy('registerBtn',true,'Create Account'); message.textContent='Creating account… 🚀';
+      const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{username}}});
+      if(error){message.textContent=error.message;setBusy('registerBtn',false,'Create Account');return;}
+      if(data.session){window.location.replace('dashboard.html');return;}
+      message.textContent='Account created! Check your email to confirm, then log in. ✅';
+      setBusy('registerBtn',false,'Create Account');
     }
 
-    async function login() {
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-
-  const message = document.getElementById("message");
-
-  if (!email || !password) {
-    message.innerText = "Please enter email and password.";
-    return;
-  }
-
-  message.innerText = "Logging in... 🔐";
-
-  const { error } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
-
-  if (error) {
-    message.innerText = error.message;
-    return;
-  }
-
-  message.innerText = "Login successful! 🎉";
-  window.location.href = "dashboard.html";
-    }
-    }
-
-    async function register() {
-  const username = document.getElementById("username").value.trim();
-  const email = document.getElementById("registerEmail").value.trim();
-  const password = document.getElementById("registerPassword").value;
-
-  const message = document.getElementById("message");
-
-  if (!username || !email || !password) {
-    message.innerText = "Please fill in all fields.";
-    return;
-  }
-
-  if (password.length < 6) {
-    message.innerText = "Password must be at least 6 characters.";
-    return;
-  }
-
-  message.innerText = "Creating account... 🚀";
-
-  const { error } = await supabaseClient.auth.signUp({
-    email: email,
-    password: password,
-    options: {
-      data: {
-        username: username
-      }
-    }
-  });
-
-  if (error) {
-    message.innerText = error.message;
-    return;
-  }
-
-  message.innerText =
-    "Account created successfully! Please check your email. ✅";
-    }
-    }
+    (async()=>{const {data:{session}}=await supabaseClient.auth.getSession();if(session) window.location.replace('dashboard.html');})();
+    supabaseClient.auth.onAuthStateChange((event,session)=>{if(session&&event==='SIGNED_IN') window.location.replace('dashboard.html');});
   </script>
-  
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = 'https://xofmeyvdnnyebfmabdfu.supabase.co';
-  const SUPABASE_KEY = 'YOUR_PUBLISHABLE_KEY';
-
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-</script>
 </body>
 </html>
