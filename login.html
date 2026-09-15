@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VisitFlow - Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #667eea;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #667eea;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .switch span {
+      color: #667eea;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+
+    <div class="logo">🌐 VisitFlow</div>
+    <div class="subtitle">Grow • Discover • Earn</div>
+
+    <!-- LOGIN -->
+    <div id="loginBox">
+      <h2>Welcome Back 👋</h2>
+
+      <input type="email" id="loginEmail" placeholder="Email address">
+      <input type="password" id="loginPassword" placeholder="Password">
+
+      <button onclick="login()">Login</button>
+
+      <div class="switch">
+        Don't have an account?
+        <span onclick="showRegister()">Register</span>
+      </div>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="registerBox" class="hidden">
+      <h2>Create Account 🚀</h2>
+
+      <input type="text" id="username" placeholder="Username">
+      <input type="email" id="registerEmail" placeholder="Email address">
+      <input type="password" id="registerPassword" placeholder="Password">
+
+      <button onclick="register()">Create Account</button>
+
+      <div class="switch">
+        Already have an account?
+        <span onclick="showLogin()">Login</span>
+      </div>
+    </div>
+
+    <div id="message"></div>
+
+  </div>
+
+  <script>
+    function showRegister() {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("registerBox").classList.remove("hidden");
+      document.getElementById("message").innerText = "";
+    }
+
+    function showLogin() {
+      document.getElementById("registerBox").classList.add("hidden");
+      document.getElementById("loginBox").classList.remove("hidden");
+      document.getElementById("message").innerText = "";
+    }
+
+    function login() {
+      document.getElementById("message").innerText =
+        "Login system connecting... 🔐";
+    }
+
+    function register() {
+      document.getElementById("message").innerText =
+        "Registration system connecting... 🚀";
+    }
+  </script>
+
+</body>
+</html>
